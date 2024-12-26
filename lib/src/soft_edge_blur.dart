@@ -55,8 +55,7 @@ class SoftEdgeBlur extends StatelessWidget {
 
     for (final edge in edges) {
       final rect = _getEdgeRect(edge, size, devicePixelRatio);
-      final isVertical =
-          edge.type == EdgeType.topEdge || edge.type == EdgeType.bottomEdge;
+      final isVertical = edge.type == EdgeType.topEdge || edge.type == EdgeType.bottomEdge;
 
       // Create gradient shader
       final gradient = _createGradient(edge, rect, isVertical);
@@ -89,7 +88,8 @@ class SoftEdgeBlur extends StatelessWidget {
       }
 
       // Apply gradient mask to the blurred image
-      canvas.drawRect(rect, gradientPaint);
+      final gradientRect = _getEdgeRect(edge, Size(size.width, size.height - 1), devicePixelRatio);
+      canvas.drawRect(gradientRect, gradientPaint);
 
       // Restore canvas state
       canvas.restore();
@@ -100,9 +100,7 @@ class SoftEdgeBlur extends StatelessWidget {
     // Extract positions and colors from control points
     final positions = edge.controlPoints.map((cp) => cp.position).toList();
     final colors = edge.controlPoints.map((cp) {
-      return cp.type == ControlPointType.visible
-          ? Colors.black
-          : Colors.transparent;
+      return cp.type == ControlPointType.visible ? Colors.black : Colors.transparent;
     }).toList();
 
     // Pair positions with colors and sort them
@@ -113,8 +111,7 @@ class SoftEdgeBlur extends StatelessWidget {
     final sortedColors = [for (var i in sortedPairs) colors[i]];
 
     // Create linear gradient based on orientation
-    if ((edge.type == EdgeType.rightEdge) ||
-        (edge.type == EdgeType.bottomEdge)) {
+    if ((edge.type == EdgeType.rightEdge) || (edge.type == EdgeType.bottomEdge)) {
       // Reverse from/to when we are in the right/bottom edge
       return ui.Gradient.linear(
         isVertical ? rect.bottomCenter : rect.centerRight,

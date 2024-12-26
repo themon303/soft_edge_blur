@@ -30,3 +30,6 @@ example/ios/*
 example/macos/*
 example/linux/*
 example/windows/*
+
+# FVM Version Cache
+.fvm/
