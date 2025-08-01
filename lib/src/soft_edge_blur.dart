@@ -88,8 +88,7 @@ class SoftEdgeBlur extends StatelessWidget {
       }
 
       // Apply gradient mask to the blurred image
-      final gradientRect = _getEdgeRect(edge, Size(size.width, size.height), devicePixelRatio);
-      // final gradientRect = _getEdgeRect(edge, Size(size.width, size.height - 1), devicePixelRatio);
+      final gradientRect = _getEdgeRect(edge, Size(size.width, size.height - 1), devicePixelRatio);
       canvas.drawRect(gradientRect, gradientPaint);
 
       // Restore canvas state
